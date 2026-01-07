@@ -12,8 +12,8 @@ if "%~1" neq "" (call :%~1) else (call :main_menu) & exit /b
 :init_parameters
 set "color=0A"
 set "title=Windows管理小工具"
-set "updated=20251225"
-set "rversion=v2.2.1"
+set "updated=20260108"
+set "rversion=v2.2.2"
 set "cols=100"
 set "lines=40"
 set "separator=="
@@ -88,6 +88,7 @@ if "%a%"=="1" (
     call :restart_explorer
 ) else if "%a%"=="3" (
 	echo 添加超级菜单...
+	call :delete_SuperMenu
 	call :add_SuperMenu
 	call :sleep "添加超级菜单成功!" 5
 ) else if "%a%"=="4" ( 
@@ -127,27 +128,27 @@ goto submenu_right_click
 	reg add "HKCR\*\shell\SuperMenu" /f /v "Icon" /t REG_SZ /d "shell32.dll,-16748">nul 2>&1 
 	reg add "HKCR\*\shell\SuperMenu" /f /v "MUIVerb" /t REG_SZ /d "超级菜单(&X)">nul 2>&1 
 	reg add "HKCR\*\shell\SuperMenu" /f /v "SeparatorAfter" /t REG_SZ /d "1">nul 2>&1 
-	reg add "HKCR\*\shell\SuperMenu" /f /v "SubCommands" /t REG_SZ /d "X.CopyPath;X.CopyName;X.CopyNameNoExt;X.CopyTo;X.MoveTo;X.Attributes;X.ClearClipboard;X.CopyContent;X.GetHash;X.Notepad;X.Makecab;X.Runas;X.PermanentDelete;Windows.RecycleBin.Empty">nul 2>&1 
+	reg add "HKCR\*\shell\SuperMenu" /f /v "SubCommands" /t REG_SZ /d "X.CopyPath;X.CopyName;X.CopyTo;X.MoveTo;X.Attributes;X.GetHash;X.Notepad;X.Runas;X.PermanentDelete;Windows.RecycleBin.Empty">nul 2>&1 
 	reg add "HKCR\DesktopBackground\Shell\SuperMenu" /f /v "Icon" /t REG_SZ /d "shell32.dll,-16748">nul 2>&1 
 	reg add "HKCR\DesktopBackground\Shell\SuperMenu" /f /v "MUIVerb" /t REG_SZ /d "超级菜单(&X)">nul 2>&1 
 	reg add "HKCR\DesktopBackground\Shell\SuperMenu" /f /v "SeparatorAfter" /t REG_SZ /d "1">nul 2>&1 
-	reg add "HKCR\DesktopBackground\Shell\SuperMenu" /f /v "SubCommands" /t REG_SZ /d "X.FolderOpt.Menu;X.Cmd;X.ACmd;X.Powershell;X.APowershell;X.System.Menu;X.ClearClipboard;Windows.RecycleBin.Empty">nul 2>&1 
+	reg add "HKCR\DesktopBackground\Shell\SuperMenu" /f /v "SubCommands" /t REG_SZ /d "X.FolderOpt.Menu;X.Cmd;X.ACmd;X.Powershell;X.APowershell;X.System.Menu;Windows.RecycleBin.Empty">nul 2>&1 
 	reg add "HKCR\DesktopBackground\Shell\SuperMenu" /f /v "Position" /t REG_SZ /d "Top">nul 2>&1 
 	reg add "HKCR\Directory\background\shell\SuperMenu" /f /v "Icon" /t REG_SZ /d "shell32.dll,-16748">nul 2>&1 
 	reg add "HKCR\Directory\background\shell\SuperMenu" /f /v "MUIVerb" /t REG_SZ /d "超级菜单(&X)">nul 2>&1 
 	reg add "HKCR\Directory\background\shell\SuperMenu" /f /v "SeparatorAfter" /t REG_SZ /d "1">nul 2>&1 
-	reg add "HKCR\Directory\background\shell\SuperMenu" /f /v "SubCommands" /t REG_SZ /d "X.FolderOpt.Menu;X.Cmd;X.ACmd;X.Powershell;X.APowershell;X.System.Menu;X.ClearClipboard;Windows.RecycleBin.Empty">nul 2>&1 
+	reg add "HKCR\Directory\background\shell\SuperMenu" /f /v "SubCommands" /t REG_SZ /d "X.FolderOpt.Menu;X.Cmd;X.ACmd;X.Powershell;X.APowershell;X.System.Menu;Windows.RecycleBin.Empty">nul 2>&1 
 	reg add "HKCR\Directory\background\shell\SuperMenu" /f /v "Position" /t REG_SZ /d "Top">nul 2>&1 
 	reg add "HKCR\Folder\shell\SuperMenu" /f /v "Icon" /t REG_SZ /d "shell32.dll,-16748">nul 2>&1 
 	reg add "HKCR\Folder\shell\SuperMenu" /f /v "MUIVerb" /t REG_SZ /d "超级菜单(&X)">nul 2>&1 
 	reg add "HKCR\Folder\shell\SuperMenu" /f /v "SeparatorAfter" /t REG_SZ /d "1">nul 2>&1 
-	reg add "HKCR\Folder\shell\SuperMenu" /f /v "SubCommands" /t REG_SZ /d "X.CopyPath;X.CopyName;X.CopyNameNoExt;X.CopyTo;X.MoveTo;X.Attributes;X.ClearClipboard;X.Filenames;X.ListedFiles;X.Cmd;X.ACmd;X.RunasD;X.PermanentDelete;Windows.RecycleBin.Empty">nul 2>&1 
+	reg add "HKCR\Folder\shell\SuperMenu" /f /v "SubCommands" /t REG_SZ /d "X.CopyPath;X.CopyName;X.CopyTo;X.MoveTo;X.Attributes;X.Filenames;X.ListedFiles;X.Cmd;X.ACmd;X.RunasD;X.PermanentDelete;Windows.RecycleBin.Empty">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.ACmd" /f /v "Icon" /t REG_SZ /d "imageres.dll,-5324">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.ACmd" /f /v "MUIVerb" /t REG_SZ /d "在此处打开命令窗口 (管理员)">nul 2>&1 
-	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.ACmd\Command" /f /ve /t REG_SZ /d "PowerShell -windowstyle hidden -Command \"Start-Process cmd.exe -ArgumentList '/s,/k,pushd,%%V' -Verb RunAs\"">nul 2>&1 
+	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.ACmd\Command" /f /ve /t REG_SZ /d "PowerShell -NoProfile -Command \"Start-Process cmd.exe -ArgumentList '/s,/k,pushd,%%V' -Verb RunAs\"">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.APowershell" /f /v "Icon" /t REG_SZ /d "imageres.dll,-5373">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.APowershell" /f /v "MUIVerb" /t REG_SZ /d "在此处打开Powershell (管理员)">nul 2>&1 
-	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.APowershell\Command" /f /ve /t REG_SZ /d "powershell.exe -Command \"Start-Process powershell.exe -ArgumentList '-NoExit','-Command','Set-Location -LiteralPath ''%%V''' -Verb RunAs\"">nul 2>&1 
+	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.APowershell\Command" /f /ve /t REG_SZ /d "powershell.exe -NoProfile -Command \"Start-Process powershell.exe -ArgumentList '-NoExit','-Command','Set-Location -LiteralPath ''%%V''' -Verb RunAs\"">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.Attributes" /f /v "Icon" /t REG_SZ /d "imageres.dll,-5314">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.Attributes" /f /v "MUIVerb" /t REG_SZ /d "文件属性">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.Attributes" /f /v "SubCommands" /t REG_SZ /d "">nul 2>&1 
@@ -157,24 +158,15 @@ goto submenu_right_click
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.Attributes\Shell\02" /f /v "Icon" /t REG_SZ /d "imageres.dll,-10">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.Attributes\Shell\02" /f /v "MUIVerb" /t REG_SZ /d "移除「系统、隐藏、只读、存档」">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.Attributes\Shell\02\Command" /f /ve /t REG_SZ /d "attrib -s -h -r -a \"%%1\"">nul 2>&1 
-	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.ClearClipboard" /f /v "Icon" /t REG_SZ /d "imageres.dll,-5383">nul 2>&1 
-	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.ClearClipboard" /f /v "MUIVerb" /t REG_SZ /d "清空剪贴板">nul 2>&1 
-	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.ClearClipboard\Command" /f /ve /t REG_SZ /d "mshta vbscript:CreateObject(\"htmlfile\").parentwindow.clipboardData.clearData()(close)">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.Cmd" /f /v "Icon" /t REG_SZ /d "imageres.dll,-5323">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.Cmd" /f /v "MUIVerb" /t REG_SZ /d "在此处打开命令窗口">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.Cmd\Command" /f /ve /t REG_SZ /d "cmd.exe /s /k pushd \"%%V\"">nul 2>&1 
-	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.CopyContent" /f /v "Icon" /t REG_SZ /d "imageres.dll,-5367">nul 2>&1 
-	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.CopyContent" /f /v "MUIVerb" /t REG_SZ /d "复制文件内容">nul 2>&1 
-	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.CopyContent\Command" /ve /t REG_SZ /d "mshta vbscript:createobject(\"shell.application\").shellexecute(\"cmd.exe\",\"/c clip ^< \"\"%%1\"\"\",\"\",\"open\",0)(close)" /f>nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.CopyName" /f /v "Icon" /t REG_SZ /d "imageres.dll,-90">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.CopyName" /f /v "MUIVerb" /t REG_SZ /d "复制名字">nul 2>&1 
-	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.CopyName\Command" /ve /t REG_SZ /d "mshta vbscript:clipboarddata.setdata(\"text\",mid(\"%%1\",instrrev(\"%%1\",\"\\\")+1))(close)" /f>nul 2>&1 
-	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.CopyNameNoExt" /f /v "Icon" /t REG_SZ /d "imageres.dll,-124">nul 2>&1 
-	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.CopyNameNoExt" /f /v "MUIVerb" /t REG_SZ /d "复制名字 (无扩展名)">nul 2>&1 
-	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.CopyNameNoExt\Command" /f /ve /t REG_SZ /d "mshta vbscript:clipboarddata.setdata(\"text\",split(createobject(\"scripting.filesystemobject\").getfilename(\"%%1\"),\".\")(0))(close)">nul 2>&1 
+	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.CopyName\Command" /ve /t REG_SZ /d "powershell -NoProfile -Command \"Set-Clipboard ([IO.Path]::GetFileName('%%1'))\"" /f>nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.CopyPath" /f /v "Icon" /t REG_SZ /d "imageres.dll,-5302">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.CopyPath" /f /v "MUIVerb" /t REG_SZ /d "复制路径">nul 2>&1 
-	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.CopyPath\Command" /f /ve /t REG_SZ /d "mshta vbscript:clipboarddata.setdata(\"text\",\"%%1\")(close)">nul 2>&1 
+	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.CopyPath\Command" /f /ve /t REG_SZ /d "powershell -NoProfile -Command \"Set-Clipboard '%%1'\"">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.CopyTo" /f /v "Icon" /t REG_SZ /d "imageres.dll,-5304">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.CopyTo" /f /v "MUIVerb" /t REG_SZ /d "复制到...(&C)">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.CopyTo" /f /v "ExplorerCommandHandler" /t REG_SZ /d "{AF65E2EA-3739-4e57-9C5F-7F43C949CE5E}">nul 2>&1 
@@ -186,25 +178,22 @@ goto submenu_right_click
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.EditEnvVar\Command" /f /ve /t REG_SZ /d "rundll32.exe sysdm.cpl,EditEnvironmentVariables">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.EditHosts" /f /v "Icon" /t REG_SZ /d "imageres.dll,-114">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.EditHosts" /f /v "MUIVerb" /t REG_SZ /d "编辑Hosts">nul 2>&1 
-	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.EditHosts\Command" /f /ve /t REG_SZ /d "mshta vbscript:createobject(\"shell.application\").shellexecute(\"notepad.exe\",\"C:\Windows\System32\drivers\etc\hosts\",\"\",\"runas\",1)(close)">nul 2>&1 
+	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.EditHosts\Command" /f /ve /t REG_SZ /d "powershell.exe -NoProfile -Command \"Start-Process 'notepad.exe' -ArgumentList 'C:\Windows\System32\drivers\etc\hosts' -Verb RunAs\"">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.Filenames" /f /v "Icon" /t REG_SZ /d "imageres.dll,-5306">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.Filenames" /f /v "MUIVerb" /t REG_SZ /d "生成文件名单">nul 2>&1 
-	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.Filenames\Command" /f /ve /t REG_SZ /d "cmd.exe /c @echo off&(for %%%%i in (\"%%1\*\")do set /p \"=%%%%~nxi \" < nul)> \"%%1_Filenames.txt\"">nul 2>&1 
+	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.Filenames\Command" /f /ve /t REG_SZ /d "cmd.exe /c @echo off&(for %%%%i in (%%1\*) do echo %%%%~nxi)>\"%%1_Filenames.txt\"">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.FolderOpt.Menu" /f /v "Icon" /t REG_SZ /d "shell32.dll,-210">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.FolderOpt.Menu" /f /v "MUIVerb" /t REG_SZ /d "文件夹选项">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.FolderOpt.Menu" /f /v "SubCommands" /t REG_SZ /d "Windows.ShowHiddenFiles;Windows.ShowFileExtensions;Windows.folderoptions">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.GetHash" /f /v "Icon" /t REG_SZ /d "imageres.dll,-5340">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.GetHash" /f /v "MUIVerb" /t REG_SZ /d "获取文件校验值 (Hash)">nul 2>&1 
-	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.GetHash\Command" /ve /t REG_SZ /d "mshta vbscript:createobject(\"shell.application\").shellexecute(\"powershell.exe\",\"-noexit write-host '\"\"%%1\"\"';$args = 'md5', 'sha1', 'sha256', 'sha384', 'sha512', 'mactripledes', 'ripemd160'; foreach($arg in $args){get-filehash '\"\"%%1\"\"' -algorithm $arg ^| select-object algorithm, hash ^| format-table -wrap}\",\"\",\"open\",3)(close)" /f>nul 2>&1 
+	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.GetHash\Command" /ve /t REG_SZ /d "powershell.exe -NoProfile -NoExit -Command \"write-host '%%1' -ForegroundColor Green; 'MD5', 'SHA1', 'SHA256', 'SHA384', 'SHA512', 'RIPEMD160' ^| ForEach-Object { Get-FileHash '%%1' -Algorithm $_ ^| Select-Object Algorithm, Hash}\"">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.GodMode" /f /v "Icon" /t REG_SZ /d "control.exe">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.GodMode" /f /v "MUIVerb" /t REG_SZ /d "所有任务">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.GodMode\Command" /f /ve /t REG_SZ /d "explorer.exe shell:::{ED7BA470-8E54-465E-825C-99712043E01C}">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.ListedFiles" /f /v "Icon" /t REG_SZ /d "imageres.dll,-5350">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.ListedFiles" /f /v "MUIVerb" /t REG_SZ /d "生成文件列表 (遍历目录)">nul 2>&1 
-	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.ListedFiles\Command" /f /ve /t REG_SZ /d "cmd.exe /c @echo off&(for /f \"delims=\" %%%%i in ('dir /b/a-d/s \"%%1\"')do echo \"%%%%i\")>\"%%1_ListedFiles.txt\"">nul 2>&1 
-	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.Makecab" /f /v "Icon" /t REG_SZ /d "imageres.dll,-175">nul 2>&1 
-	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.Makecab" /f /v "MUIVerb" /t REG_SZ /d "Makecab最大压缩">nul 2>&1 
-	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.Makecab\Command" /f /ve /t REG_SZ /d "makecab.exe /D CompressionType=LZX /D CompressionMemory=21 /D Cabinet=ON /D Compress=ON \"%%1\"">nul 2>&1 
+	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.ListedFiles\Command" /f /ve /t REG_SZ /d "cmd.exe /c @echo off&(for /f \"delims=\" %%%%i in ('dir /b /a-d /s \"%%1\"') do echo %%%%i)>\"%%1_ListedFiles.txt\"">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.MoveTo" /f /v "Icon" /t REG_SZ /d "imageres.dll,-5303">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.MoveTo" /f /v "MUIVerb" /t REG_SZ /d "移动到...(&M)">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.MoveTo" /f /v "ExplorerCommandHandler" /t REG_SZ /d "{A0202464-B4B4-4b85-9628-CCD46DF16942}">nul 2>&1 
@@ -219,7 +208,7 @@ goto submenu_right_click
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.Powershell\Command" /f /ve /t REG_SZ /d "powershell.exe -noexit -command Set-Location -literalPath '%%V'">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.RestartExplorer" /f /v "Icon" /t REG_SZ /d "shell32.dll,-16739">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.RestartExplorer" /f /v "MUIVerb" /t REG_SZ /d "重启资源管理器">nul 2>&1 
-	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.RestartExplorer\Command" /f /ve /t REG_SZ /d "mshta vbscript:createobject(\"shell.application\").shellexecute(\"tskill.exe\",\"explorer\",\"\",\"open\",0)(close)">nul 2>&1 
+	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.RestartExplorer\Command" /f /ve /t REG_SZ /d "cmd.exe /c taskkill /f /im explorer.exe & start explorer.exe" >nul 2>&1
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.Runas" /f /v "Icon" /t REG_SZ /d "imageres.dll,-5356">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.Runas" /f /v "MUIVerb" /t REG_SZ /d "管理员取得所有权">nul 2>&1 
 	reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.Runas\Command" /f /ve /t REG_SZ /d "cmd.exe /c takeown /f \"%%1\" && icacls \"%%1\" /grant administrators:F">nul 2>&1 
@@ -241,11 +230,8 @@ goto submenu_right_click
 	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.ACmd" /f >nul 2>&1 
 	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.APowershell" /f >nul 2>&1 
 	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.Attributes" /f >nul 2>&1 
-	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.ClearClipboard" /f >nul 2>&1 
 	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.Cmd" /f >nul 2>&1 
-	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.CopyContent" /f >nul 2>&1 
 	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.CopyName" /f >nul 2>&1 
-	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.CopyNameNoExt" /f >nul 2>&1 
 	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.CopyPath" /f >nul 2>&1 
 	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.CopyTo" /f >nul 2>&1 
 	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.Device" /f >nul 2>&1 
@@ -256,7 +242,6 @@ goto submenu_right_click
 	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.GetHash" /f >nul 2>&1 
 	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.GodMode" /f >nul 2>&1 
 	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.ListedFiles" /f >nul 2>&1 
-	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.Makecab" /f >nul 2>&1 
 	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.MoveTo" /f >nul 2>&1 
 	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.Notepad" /f >nul 2>&1 
 	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\X.PermanentDelete" /f >nul 2>&1 
@@ -603,7 +588,7 @@ call :print_title "资源管理器设置"
 set "a=" 
 call :print_separator
 echo			 1. 默认打开[此电脑/主文件夹]         11. 清理图标/缩略图缓存 &echo.
-echo			 2. 文件扩展(后缀)名开关              12. Windows 10此电脑文件夹设置 &echo.
+echo			 2. 文件扩展(后缀)名开关 &echo.
 echo			 3. [单击/双击]打开文件 &echo.
 echo			 4. [显示/隐藏]复选框 &echo.
 echo			 5. [显示/隐藏]系统隐藏文件 &echo.
@@ -710,8 +695,6 @@ if "%a%"=="1" (
 	)
 )  else if "%a%"=="11" (
 	call :clear_icon_cache
-) else if "%a%"=="12" (
-	call :this_computer_folder
 )
 if "%a%"=="0" exit /b
 if /i "%a%"=="q" exit /b
@@ -763,116 +746,6 @@ del /f /s /q "%localappdata%\Microsoft\Windows\Explorer\thumbcache_*" >nul 2>&1
 call :restart_explorer
 call :sleep "清理完成" 6
 exit /b
-
-:: Windows 10 此电脑文件夹管理
-:this_computer_folder
-call :print_title "Windows 10 此电脑文件夹管理"
-set "a="
-call :print_separator
-echo			1. 隐藏 3D	 		 2. 恢复 3D &echo.
-echo			3. 隐藏 视频			 4. 恢复 视频 &echo.
-echo			5. 隐藏 图片			 6. 恢复 图片 &echo.
-echo			7. 隐藏 文档			 8. 恢复 文档 &echo.
-echo			9. 隐藏 下载			10. 恢复 下载 &echo.
-echo			11. 隐藏 音乐			12. 恢复 音乐 &echo.
-echo			13. 隐藏 桌面			14. 恢复 桌面 &echo.
-echo			15. 隐藏所有选项		16. 开启所有选项 &echo.
-echo			0. 返回(q) &echo.
-call :print_separator
-echo.
-set /p b=请输入你的选择: 
-if "%b%"=="1" (
-	Reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{31C0DD25-9439-4F12-BF41-7FF4EDA38722}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Hide" /f
-	Reg add "HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{31C0DD25-9439-4F12-BF41-7FF4EDA38722}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Hide" /f
-	call :restart_explorer
-) else if "%b%"=="2" (
-	Reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{31C0DD25-9439-4F12-BF41-7FF4EDA38722}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Show" /f
-	Reg add "HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{31C0DD25-9439-4F12-BF41-7FF4EDA38722}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Show" /f
-	call :restart_explorer
-) else if "%b%"=="3" (
-	Reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{35286a68-3c57-41a1-bbb1-0eae73d76c95}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Hide" /f
-	Reg add "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{35286a68-3c57-41a1-bbb1-0eae73d76c95}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Hide" /f
-	call :restart_explorer
-) else if "%b%"=="4" (
-	Reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{35286a68-3c57-41a1-bbb1-0eae73d76c95}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Show" /f
-	Reg add "HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{35286a68-3c57-41a1-bbb1-0eae73d76c95}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Show" /f
-	call :restart_explorer
-) else if "%b%"=="5" (
-	Reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{f42ee2d3-909f-4907-8871-4c22fc0bf756}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Hide" /f
-	Reg add "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{f42ee2d3-909f-4907-8871-4c22fc0bf756}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Hide" /f
-	call :restart_explorer
-) else if "%b%"=="6" (
-	Reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{f42ee2d3-909f-4907-8871-4c22fc0bf756}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Show" /f
-	Reg add "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{f42ee2d3-909f-4907-8871-4c22fc0bf756}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Show" /f
-	call :restart_explorer
-) else if "%b%"=="7" (
-	Reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{7d83ee9b-2244-4e70-b1f5-5393042af1e4}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Hide" /f
-	Reg add "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{7d83ee9b-2244-4e70-b1f5-5393042af1e4}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Hide" /f
-	call :restart_explorer
-) else if "%b%"=="8" (
-	Reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{7d83ee9b-2244-4e70-b1f5-5393042af1e4}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Show" /f
-	Reg add "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{7d83ee9b-2244-4e70-b1f5-5393042af1e4}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Show" /f
-	call :restart_explorer
-) else if "%b%"=="9" (
-	Reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{0ddd015d-b06c-45d5-8c4c-f59713854639}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Hide" /f
-	Reg add "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{0ddd015d-b06c-45d5-8c4c-f59713854639}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Hide" /f
-	call :restart_explorer
-) else if "%b%"=="10" (
-	Reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{0ddd015d-b06c-45d5-8c4c-f59713854639}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Show" /f
-	Reg add "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{0ddd015d-b06c-45d5-8c4c-f59713854639}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Show" /f
-	call :restart_explorer
-) else if "%b%"=="11" (
-	Reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{a0c69a99-21c8-4671-8703-7934162fcf1d}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Hide" /f
-	Reg add "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{a0c69a99-21c8-4671-8703-7934162fcf1d}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Hide" /f
-	call :restart_explorer
-) else if "%b%"=="12" (
-	Reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{a0c69a99-21c8-4671-8703-7934162fcf1d}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Show" /f
-	Reg add "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{a0c69a99-21c8-4671-8703-7934162fcf1d}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Show" /f
-	call :restart_explorer
-) else if "%b%"=="13" (
-	Reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Hide" /f
-	Reg add "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Hide" /f
-	call :restart_explorer
-) else if "%b%"=="14" (
-	Reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Show" /f
-	Reg add "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Show" /f
-	call :restart_explorer
-) else if "%b%"=="15" (
-	Reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{31C0DD25-9439-4F12-BF41-7FF4EDA38722}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Hide" /f
-	Reg add "HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{31C0DD25-9439-4F12-BF41-7FF4EDA38722}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Hide" /f
-	Reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{35286a68-3c57-41a1-bbb1-0eae73d76c95}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Hide" /f
-	Reg add "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{35286a68-3c57-41a1-bbb1-0eae73d76c95}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Hide" /f
-	Reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{f42ee2d3-909f-4907-8871-4c22fc0bf756}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Hide" /f
-	Reg add "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{f42ee2d3-909f-4907-8871-4c22fc0bf756}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Hide" /f
-	Reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{7d83ee9b-2244-4e70-b1f5-5393042af1e4}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Hide" /f
-	Reg add "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{7d83ee9b-2244-4e70-b1f5-5393042af1e4}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Hide" /f
-	Reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{0ddd015d-b06c-45d5-8c4c-f59713854639}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Hide" /f
-	Reg add "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{0ddd015d-b06c-45d5-8c4c-f59713854639}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Hide" /f
-	Reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{a0c69a99-21c8-4671-8703-7934162fcf1d}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Hide" /f
-	Reg add "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{a0c69a99-21c8-4671-8703-7934162fcf1d}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Hide" /f
-	Reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Hide" /f
-	Reg add "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Hide" /f
-	call :restart_explorer
-) else if "%b%"=="16" (
-	Reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{31C0DD25-9439-4F12-BF41-7FF4EDA38722}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Show" /f
-	Reg add "HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{31C0DD25-9439-4F12-BF41-7FF4EDA38722}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Show" /f
-	Reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{35286a68-3c57-41a1-bbb1-0eae73d76c95}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Show" /f
-	Reg add "HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{35286a68-3c57-41a1-bbb1-0eae73d76c95}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Show" /f
-	Reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{f42ee2d3-909f-4907-8871-4c22fc0bf756}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Show" /f
-	Reg add "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{f42ee2d3-909f-4907-8871-4c22fc0bf756}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Show" /f
-	Reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{7d83ee9b-2244-4e70-b1f5-5393042af1e4}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Show" /f
-	Reg add "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{7d83ee9b-2244-4e70-b1f5-5393042af1e4}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Show" /f
-	Reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{0ddd015d-b06c-45d5-8c4c-f59713854639}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Show" /f
-	Reg add "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{0ddd015d-b06c-45d5-8c4c-f59713854639}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Show" /f
-	Reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{a0c69a99-21c8-4671-8703-7934162fcf1d}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Show" /f
-	Reg add "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{a0c69a99-21c8-4671-8703-7934162fcf1d}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Show" /f
-	Reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Show" /f
-	Reg add "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}\PropertyBag" /v "ThisPCPolicy" /t REG_SZ /d "Show" /f
-	call :restart_explorer
-)
-if "%b%"=="0" exit /b
-if /i "%b%"=="q" exit /b
-goto this_computer_folder
 
 :: 下载 Windows
 :download_windows_office
@@ -937,26 +810,27 @@ echo			0. 返回(q) &echo.
 call :print_separator
 echo.
 set /p a=请输入你的选择: 
+set "UPDATE_REG=HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings"
 if "%a%"=="1" (
 	echo 正在暂停更新...
-	reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" /v "FlightSettingsMaxPauseDays" /t REG_DWORD /d 7152 /f >nul 2>&1
-	reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" /v "PauseFeatureUpdatesStartTime" /t REG_SZ /d "2024-01-01T10:00:52Z" /f >nul 2>&1
-	reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" /v "PauseFeatureUpdatesEndTime" /t REG_SZ /d "2999-12-01T09:59:52Z" /f >nul 2>&1
-	reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" /v "PauseQualityUpdatesStartTime" /t REG_SZ /d "2024-01-01T10:00:52Z" /f >nul 2>&1
-	reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" /v "PauseQualityUpdatesEndTime" /t REG_SZ /d "2999-12-01T09:59:52Z" /f >nul 2>&1
-	reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" /v "PauseUpdatesStartTime" /t REG_SZ /d "2024-01-01T09:59:52Z" /f >nul 2>&1
-	reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" /v "PauseUpdatesExpiryTime" /t REG_SZ /d "2999-12-01T09:59:52Z" /f >nul 2>&1
+	reg add "%UPDATE_REG%" /v "FlightSettingsMaxPauseDays" /t REG_DWORD /d 7152 /f >nul 2>&1
+	reg add "%UPDATE_REG%" /v "PauseFeatureUpdatesStartTime" /t REG_SZ /d "2024-01-01T10:00:52Z" /f >nul 2>&1
+	reg add "%UPDATE_REG%" /v "PauseFeatureUpdatesEndTime" /t REG_SZ /d "2999-12-01T09:59:52Z" /f >nul 2>&1
+	reg add "%UPDATE_REG%" /v "PauseQualityUpdatesStartTime" /t REG_SZ /d "2024-01-01T10:00:52Z" /f >nul 2>&1
+	reg add "%UPDATE_REG%" /v "PauseQualityUpdatesEndTime" /t REG_SZ /d "2999-12-01T09:59:52Z" /f >nul 2>&1
+	reg add "%UPDATE_REG%" /v "PauseUpdatesStartTime" /t REG_SZ /d "2024-01-01T09:59:52Z" /f >nul 2>&1
+	reg add "%UPDATE_REG%" /v "PauseUpdatesExpiryTime" /t REG_SZ /d "2999-12-01T09:59:52Z" /f >nul 2>&1
 	start ms-settings:windowsupdate
 	call :sleep "已暂停更新至2999年" 5
 ) else if "%a%"=="2" (
 	echo 正在恢复更新...
-	reg delete "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" /v "FlightSettingsMaxPauseDays" /f >nul 2>&1
-	reg delete "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" /v "PauseFeatureUpdatesStartTime" /f >nul 2>&1
-	reg delete "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" /v "PauseFeatureUpdatesEndTime" /f >nul 2>&1
-	reg delete "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" /v "PauseQualityUpdatesStartTime" /f >nul 2>&1
-	reg delete "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" /v "PauseQualityUpdatesEndTime" /f >nul 2>&1
-	reg delete "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" /v "PauseUpdatesStartTime" /f >nul 2>&1
-	reg delete "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" /v "PauseUpdatesExpiryTime" /f >nul 2>&1
+	reg delete "%UPDATE_REG%" /v "FlightSettingsMaxPauseDays" /f >nul 2>&1
+	reg delete "%UPDATE_REG%" /v "PauseFeatureUpdatesStartTime" /f >nul 2>&1
+	reg delete "%UPDATE_REG%" /v "PauseFeatureUpdatesEndTime" /f >nul 2>&1
+	reg delete "%UPDATE_REG%" /v "PauseQualityUpdatesStartTime" /f >nul 2>&1
+	reg delete "%UPDATE_REG%" /v "PauseQualityUpdatesEndTime" /f >nul 2>&1
+	reg delete "%UPDATE_REG%" /v "PauseUpdatesStartTime" /f >nul 2>&1
+	reg delete "%UPDATE_REG%" /v "PauseUpdatesExpiryTime" /f >nul 2>&1
 	start ms-settings:windowsupdate
 	call :sleep "已恢复更新" 5
 )
@@ -1131,9 +1005,8 @@ set "a="
 call :print_separator
 echo				1. 一键卸载预装应用 &echo.
 echo				2. 打开程序和功能 &echo.
-echo				3. 高级winget应用管理 &echo.
-echo				4. OneDrive安装/卸载 &echo.
-echo				5. 微软拼音输入法设置 &echo.
+echo				3. OneDrive安装/卸载 &echo.
+echo				4. 微软拼音输入法设置 &echo.
 echo				0. 返回(q) &echo.
 call :print_separator
 set /p a=请输入你的选择: 
@@ -1142,14 +1015,12 @@ if "%a%"=="1" (
 )else if "%a%"=="2" (
 	start "" appwiz.cpl
 )else if "%a%"=="3" (
-	call :winget_app
-)else if "%a%"=="4" (
 	choice /c 123 /n /m "OneDrive应用? [1.卸载 2.安装 3.取消]: "
 	set /a op=!errorlevel!
 	if !op! == 1 call :uninstall_OneDrive
 	if !op! == 2 call :install_OneDrive
 	if !op! == 3 goto :app_setting
-)else if "%a%"=="5" (
+)else if "%a%"=="4" (
 	call :microsoft_pinyin
 )
 if "%a%"=="0" exit /b
@@ -1216,113 +1087,6 @@ echo 正在卸载Outlook for Windows
 winget uninstall "Outlook for Windows"
 call :widgets_uninstall
 echo 卸载预装应用完成 & timeout /t 4
-exit /b
-
-:: 高级winget应用管理 
-:winget_app
-call :check_winget
-if errorlevel 1 exit /b
-call :reset_color
-call :print_title "高级winget应用管理"
-set "d="
-call :print_separator
-echo				1. 搜索应用 &echo.
-echo				2. 安装应用 &echo.
-echo				3. 查看已安装 &echo.
-echo				4. 更新 &echo.
-echo				5. 卸载 &echo.
-echo				0. 返回(q) &echo.
-call :print_separator
-echo	本功能使用winget进行应用的管理
-echo	https://learn.microsoft.com/zh-cn/windows/package-manager/winget/ &echo.
-call :print_separator
-set /p "d=请输入你的选择: "
-if "%d%"=="1" (
-	call :winget_search
-) else if "%d%"=="2" (
-	call :winget_install
-) else if "%d%"=="3" (
-	set "command_line=winget list"
-	start "!command_line!" /max cmd /k "!command_line!"
-) else if "%d%"=="4" (
-	call :winget_upgrade
-) else if "%d%"=="5" (
-	call :winget_uninstall
-) 
-if "%d%"=="0" exit /b
-if /i "%d%"=="q" exit /b
-goto :winget_app 
-
-:: winget搜索应用 
-:winget_search
-set /p "app_name=请输入要搜索的应用关键词（例如 微信）: "
-set "command_line=winget search !app_name!"
-start "!command_line!" cmd /k "!command_line! -s winget"
-exit /b
-
-:: winget安装应用 
-:winget_install
-call :ask_confirm "根据搜索结果id安装应用，是否继续? [Y/n]: " y
-if errorlevel 1 goto :winget_app
-echo.
-:winget_intstall_input_id
-echo 输入需要安装的应用id，如果有多个应用使用空格分割（例如 Tencent.WeChat） 
-set "app_ids="
-set /p "app_ids=你要安装的应用ID是? : "
-if not defined app_ids (echo 请重新输入 & goto :winget_intstall_input_id)
-set "install_location="
-if /i "%SystemDrive%"=="C:" if exist "D:\" set "install_location=D:\apps"
-echo.
-if defined install_location (
-	echo 如果可以，我会为你安装在!install_location! ，当然这取决应用是否支持修改路径。
-) else (
-	echo 我会安装在系统默认位置。
-)
-choice /c 123 /n /m "是否同意? [1.好的 2.应用默认安装位置 3. 自定义位置]: "
-if %errorlevel%==2 (
-	set "install_location="
-) else if %errorlevel%==3 (
-	set /p "install_location=请输入安装的位置（例如 D:\apps）: "
-)
-if defined install_location if not exist "%install_location%\" mkdir "%install_location%"
-cls
-for %%i in (%app_ids%) do (
-	if defined install_location (
-		echo 正在安装 %%i 到 %install_location%...
-		winget install --id "%%i" -e -l %install_location% -s winget --accept-source-agreements --accept-package-agreements
-	) else (
-		echo 正在安装 %%i 到默认位置...
-		winget install --id "%%i" -e -s winget --accept-source-agreements --accept-package-agreements
-	)
-)
-call :wait_keydown "安装结束，按任意键继续"
-call :reset_color
-exit /b
-
-:: winget升级应用 
-:winget_upgrade 
-choice /c 123 /n /m "更新选项? [1.更新所有 2.更新指定应用 3.取消]: "
-if "!errorlevel!"=="3" exit /b
-if "!errorlevel!"=="1" (
-	winget upgrade --all
-) else if "!errorlevel!"=="2" (
-	set /p "app_id=输入需要更新的应用id（例如 Tencent.WeChat）: "
-	winget upgrade !app_id!
-)
-call :sleep "更新完成" 10
-call :reset_color
-exit /b
-
-:: winget卸载应用 
-:winget_uninstall 
-choice /c 12 /n /m "卸载应用吗? [1.是的 2.取消]: "
-if "!errorlevel!"=="2" exit /b
-set "app_id="
-set /p "app_id=输入需要卸载的应用id（例如 Tencent.WeChat）: "
-if not defined app_ids (call :sleep "ID不正确" 5 & exit /b)
-winget uninstall !app_id!
-call :sleep "卸载完成" 10
-call :reset_color
 exit /b
 
 :: 卸载OneDrive
@@ -1756,27 +1520,27 @@ setlocal
 call :print_title "图一乐"
 set "c="
 call :print_separator
-echo         1. 假装更新             16. 全球航班追踪         31. 空难信息网 
-echo         2. 黑客打字             17. 魔性蠕虫             32. 童年在线游戏 
-echo         3. 模拟macOS桌面        18. 狗屁不通文章生成器   33. 一分钟公园
-echo         4. windows93            19. 能不能好好说话       34. 图寻 
-echo         5. IBM PC模拟器         20. 自由钢琴             35. 梦乡 
-echo         6. 侏罗纪公园系统       21. Poki                 36. 猜密码 
-echo         7. Unix 系统模拟器      22. 邦戈猫               37. A Real Me 
-echo         8. 卡巴斯基网络威胁     23. 全历史               38. 人生重开模拟器  
-echo         9. 假装黑客             24. 对称光绘             39. 寻找隐藏的牛 
-echo        10. 无用网站             25. 互联网坟墓           40. 开车 
-echo        11. neal.fun             26. 语保工程             41. 实况摄像头 
-echo        12. 人类基准测试         27. 无限缩放             42. 狗神 
-echo        13. 时光邮局             28. 无限马腿             43. 有趣网址之家 
-echo        14. 全球在线广播         29. 白噪音               44. 很相思 
-echo        15. 全球天气动态         30. 宇宙的刻度           45. 秘密花园 
+echo      1. 假装更新             16. 全球航班追踪         31. 空难信息网       46. 十字街 
+echo      2. 黑客打字             17. 魔性蠕虫             32. 童年在线游戏     47. 阿江守候 
+echo      3. 模拟macOS桌面        18. 狗屁不通文章生成器   33. 一分钟公园 
+echo      4. windows93            19. 能不能好好说话       34. 图寻 
+echo      5. IBM PC模拟器         20. 自由钢琴             35. 梦乡 
+echo      6. 侏罗纪公园系统       21. Poki                 36. 猜密码 
+echo      7. Unix 系统模拟器      22. 邦戈猫               37. A Real Me 
+echo      8. 卡巴斯基网络威胁     23. 全历史               38. 人生重开模拟器  
+echo      9. 假装黑客             24. 对称光绘             39. 寻找隐藏的牛 
+echo     10. 无用网站             25. 互联网档案馆         40. 开车 
+echo     11. neal.fun             26. 语保工程             41. 实况摄像头 
+echo     12. 人类基准测试         27. 无限缩放             42. 狗神 
+echo     13. 时光邮局             28. 无限马腿             43. 有趣网址之家 
+echo     14. 全球在线广播         29. 白噪音               44. 很相思 
+echo     15. 全球天气动态         30. 宇宙的刻度           45. 秘密花园 
 echo.
 echo        0. 返回(q) 
 call :print_separator
 set /p "c=请输入你的选择（回车随机选一个）: "
 if "%c%"=="" (
-	set /a "rand_num=!random! %% 45 + 1"
+	set /a "rand_num=!random! %% 47 + 1"
 	set "c=!rand_num!"
 	call :sleep "随机选择了 !c! 正在打开网站……" 3
 )
@@ -1804,7 +1568,7 @@ if "%c%"=="21" start "" https://poki.com/zh
 if "%c%"=="22" start "" https://bongo.cat
 if "%c%"=="23" start "" https://www.allhistory.com
 if "%c%"=="24" start "" http://weavesilk.com
-if "%c%"=="25" start "" https://wiki.archiveteam.org
+if "%c%"=="25" start "" https://archive.org
 if "%c%"=="26" start "" https://zhongguoyuyan.cn
 if "%c%"=="27" start "" https://zoomquilt.org
 if "%c%"=="28" start "" http://endless.horse
@@ -1825,6 +1589,8 @@ if "%c%"=="42" start "" https://dogod.io
 if "%c%"=="43" start "" https://youquhome.com
 if "%c%"=="44" start "" https://henxiangsi.com
 if "%c%"=="45" start "" http://www.yini.org
+if "%c%"=="46" start "" https://crosst.chat
+if "%c%"=="47" start "" http://ajiang.net
 if "%c%"=="0" endlocal & exit /b
 if /i "%c%"=="q" endlocal & exit /b
 goto :hahaha
@@ -1998,7 +1764,7 @@ echo    小工具，集成了多个系统设置，旨在简化日常维护和系
 echo. 
 echo  当前版本：
 echo. 
-echo     %rversion% 圣诞版 
+echo     %rversion% 
 echo. 
 echo  更新地址： 
 echo. 
