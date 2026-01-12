@@ -1522,7 +1522,7 @@ set "c="
 call :print_separator
 echo      1. 假装更新             16. 全球航班追踪         31. 空难信息网       46. 十字街 
 echo      2. 黑客打字             17. 魔性蠕虫             32. 童年在线游戏     47. 阿江守候 
-echo      3. 模拟macOS桌面        18. 狗屁不通文章生成器   33. 一分钟公园 
+echo      3. 模拟macOS桌面        18. 狗屁不通文章生成器   33. 一分钟公园       48. 追梦人日记网
 echo      4. windows93            19. 能不能好好说话       34. 图寻 
 echo      5. IBM PC模拟器         20. 自由钢琴             35. 梦乡 
 echo      6. 侏罗纪公园系统       21. Poki                 36. 猜密码 
@@ -1536,11 +1536,11 @@ echo     13. 时光邮局             28. 无限马腿             43. 有趣网
 echo     14. 全球在线广播         29. 白噪音               44. 很相思 
 echo     15. 全球天气动态         30. 宇宙的刻度           45. 秘密花园 
 echo.
-echo        0. 返回(q) 
+echo      0. 返回(q) 
 call :print_separator
 set /p "c=请输入你的选择（回车随机选一个）: "
 if "%c%"=="" (
-	set /a "rand_num=!random! %% 47 + 1"
+	set /a "rand_num=!random! %% 48 + 1"
 	set "c=!rand_num!"
 	call :sleep "随机选择了 !c! 正在打开网站……" 3
 )
@@ -1591,6 +1591,7 @@ if "%c%"=="44" start "" https://henxiangsi.com
 if "%c%"=="45" start "" http://www.yini.org
 if "%c%"=="46" start "" https://crosst.chat
 if "%c%"=="47" start "" http://ajiang.net
+if "%c%"=="48" start "" http://diary365.net/home.asp
 if "%c%"=="0" endlocal & exit /b
 if /i "%c%"=="q" endlocal & exit /b
 goto :hahaha
